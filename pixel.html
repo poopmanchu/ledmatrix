@@ -1,0 +1,135 @@
+<html>
+<head>
+<style>
+:root {
+  --grid-cols: 1;
+  --grid-rows: 1;
+}
+
+body {
+  background-color: black;
+}
+
+#container {
+  display: grid;
+  grid-gap: 0em;
+  grid-template-rows: repeat(var(--grid-rows), 2em);
+  grid-template-columns: repeat(var(--grid-cols), 2em);
+}
+
+.grid-item {
+  padding: 1em;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.grid-item:hover {
+  background-color: gray;
+}
+</style>
+</head>
+<body>
+<div id="container">
+</div>
+<br>
+<textarea id="bytes" rows="10" cols="60">
+</textarea>
+<br><br>
+<textarea id="scratch" rows="20" cols="60">
+</textarea>
+
+<script>
+
+const container = document.getElementById("container");
+
+function makeRows(rows, cols) {
+  var base = 136;
+  var base2 = 8;
+  container.style.setProperty('--grid-rows', rows);
+  container.style.setProperty('--grid-cols', cols);
+  for (c = 0; c < (rows * cols); c++) {
+    let cell = document.createElement("div");
+    //cell.innerText = (c + 1);
+    container.appendChild(cell).className = "grid-item";
+    if (c < cols) {
+      cell.setAttribute("id", "box" + (base + ((c%16)*8)));
+    } 
+    if (c >= cols && c < cols*2) {
+      cell.setAttribute("id", "box" + ((base-1) + ((c%16)*8)));
+    }
+    if (c >= cols*2 && c < cols*3) {
+      cell.setAttribute("id", "box" + ((base-2) + ((c%16)*8)));
+    } 
+    if (c >= cols*3 && c < cols*4) {
+      cell.setAttribute("id", "box" + ((base-3) + ((c%16)*8)));
+    }
+    if (c >= cols*4 && c < cols*5) {
+      cell.setAttribute("id", "box" + ((base-4) + ((c%16)*8)));
+    }
+    if (c >= cols*5 && c < cols*6) {
+      cell.setAttribute("id", "box" + ((base-5) + ((c%16)*8)));
+    }
+    if (c >= cols*6 && c < cols*7) {
+      cell.setAttribute("id", "box" + ((base-6) + ((c%16)*8)));
+    }
+    if (c >= cols*7 && c < cols*8) {
+      cell.setAttribute("id", "box" + ((base-7) + ((c%16)*8)));
+    }
+    if (c >= cols*8 && c < cols*9) {
+      cell.setAttribute("id", "box" + ((base2) + ((c%16)*8)));
+    }
+    if (c >= cols*9 && c < cols*10) {
+      cell.setAttribute("id", "box" + ((base2-1) + ((c%16)*8)));
+    }
+    if (c >= cols*10 && c < cols*11) {
+      cell.setAttribute("id", "box" + ((base2-2) + ((c%16)*8)));
+    } 
+    if (c >= cols*11 && c < cols*12) {
+      cell.setAttribute("id", "box" + ((base2-3) + ((c%16)*8)));
+    }
+    if (c >= cols*12 && c < cols*13) {
+      cell.setAttribute("id", "box" + ((base2-4) + ((c%16)*8)));
+    }
+    if (c >= cols*13 && c < cols*14) {
+      cell.setAttribute("id", "box" + ((base2-5) + ((c%16)*8)));
+    }
+    if (c >= cols*14 && c < cols*15) {
+      cell.setAttribute("id", "box" + ((base2-6) + ((c%16)*8)));
+    }
+    if (c >= cols*15 && c < cols*16) {
+      cell.setAttribute("id", "box" + ((base2-7) + ((c%16)*8)));
+    }
+    cell.onclick = function() {
+	    if(cell.style.backgroundColor == '') {
+	        cell.style.backgroundColor = 'red';
+	    } else {
+	    	cell.style.backgroundColor = '';
+	    }
+	    generateBytes(rows * cols);
+    }
+  };
+};
+
+function generateBytes(cells) {
+	document.getElementById("bytes").value = '';
+	
+	for (i = 1; i <= cells; i++) {
+		if ((i-1) % 8 == 0 && i > 1) {
+			document.getElementById("bytes").value += ',B';
+		}
+    if ((i-1) % 8 == 0 && i == 1) {
+      document.getElementById("bytes").value += 'B';
+    }
+		if (document.getElementById("box" + i).style.backgroundColor == 'red') {			
+			document.getElementById("bytes").value += '0';
+		} else {
+			document.getElementById("bytes").value += '1';
+		}
+	}
+}
+
+makeRows(16, 16);
+</script>
+
+</body>
+</html>
